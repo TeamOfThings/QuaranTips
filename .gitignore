@@ -5,6 +5,8 @@
 
 ### NOSTRI ###
 token.json
+venv/
+virtualenv/
 
 ### Linux ###
 *~
