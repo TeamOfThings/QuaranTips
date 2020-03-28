@@ -1,5 +1,4 @@
 import datetime as dt
-
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 
