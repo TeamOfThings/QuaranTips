@@ -1,6 +1,8 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 import json
+from sqlalchemy import func
+from database import db, Thought, User
 
 """
 HELP
