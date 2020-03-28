@@ -10,55 +10,34 @@ import json
 import random
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler
 
-class BookTip:
+class TipList:
+    """This class stores a fixed list of tips and randmly picks one
+    """
 
-    def __init__(self):
+    def __init__(self, lst):
 
-        self.books = [
-            "La saga di Harry Potter",
-            "Il signore degli anelli",
-            "La trilogia di Hunger Games"
-        ]
-
+        self.tip_list = lst
 
     def pick(self):
-        idx = random.randint(0, len(self.books)-1)
-        return self.books[idx]
+        idx = random.randint(0, len(self.tip_list)-1)
+        return self.tip_list[idx]
 
 
-class SportTip:
-
-    def __init__(self):
-
-        self.sports = [
-            "degli esercizi di stretching",
-            "una corsa sul posto o step",
-            "un allenamento online. Molti istruttori fanno esercizi in diretta"
-        ]
-
-
-    def pick(self):
-        idx = random.randint(0, len(self.sports)-1)
-        return self.sports[idx]
-
-
+# Loggers 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Read token
-with open("token.json", "r") as file:
-    data = json.load(file)
-    token = data["bot_token"]
 
+# Create object tips
+book_tip = TipList([ "La saga di Harry Potter", "Il signore degli anelli", "La trilogia di Hunger Games"])
+sport_tip = TipList([ "degli esercizi di stretching", "una corsa sul posto o step", "un allenamento online. Molti istruttori fanno esercizi in diretta"])
 
-# Create obejct tips
-book_tip = BookTip()
-sport_tip = SportTip()
 
 def tip(update, context):
+    """Creates tip buttons for the users"""
     # Definisce i bottoni
     keyboard = [[InlineKeyboardButton("Consiglio sportivo", callback_data='sport')],
                  [InlineKeyboardButton("Qualcosa da leggere", callback_data='books')]
@@ -71,6 +50,7 @@ def tip(update, context):
 
 
 def button(update, context):
+    """Shows button messages """
     query = update.callback_query
 
     # CallbackQueries need to be answered, even if no notification to the user is needed
@@ -94,33 +74,6 @@ def button(update, context):
     query.edit_message_text(text=text)
 
 
-def help(update, context):
-    update.message.reply_text("Use /start to test this bot.")
-
-
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
-
-
-def main():
-    # Create the Updater and pass it your bot's token.
-    # Make sure to set use_context=True to use the new context based callbacks
-    # Post version 12 this will no longer be necessary
-    updater = Updater(token, use_context=True)
-    
-    updater.dispatcher.add_handler(CommandHandler('start', tip))
-    updater.dispatcher.add_handler(CallbackQueryHandler(button))
-    updater.dispatcher.add_handler(CommandHandler('help', help))
-    updater.dispatcher.add_error_handler(error)
-
-    # Start the Bot
-    updater.start_polling()
-
-    # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
