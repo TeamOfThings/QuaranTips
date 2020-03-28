@@ -1,7 +1,11 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, CallbackQueryHandler
 import json
+from sqlalchemy import func
+from database import engine, Thought, create_tables
+from message_reader import message_handler
 from tips import tip, button
+
 """
 HELP
 The Updater class continuously fetches new updates from telegram and passes them on to the Dispatcher class.
@@ -17,6 +21,9 @@ with open("token.json", "r") as file:
     updater = Updater(token=data["bot_token"], use_context=True)
 
 dispatcher = updater.dispatcher
+if not engine.dialect.has_table(engine, "thoughts"):
+        create_tables()
+
 
 
 # # Def a method that only sends a message
@@ -27,6 +34,7 @@ dispatcher = updater.dispatcher
     # The bot executes the method everytime it receives the \start command
 updater.dispatcher.add_handler(CommandHandler('start', tip))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
+updater.dispatcher.add_handler(CommandHandler('save', message_handler))
 
 # start_handler = CommandHandler('start', start)
 # dispatcher.add_handler(start_handler)
