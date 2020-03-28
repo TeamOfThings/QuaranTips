@@ -1,6 +1,7 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 import json
+from message_reader import message_handler
 
 """
 HELP
@@ -27,6 +28,7 @@ def start(update, context):
     # The bot executes the method everytime it receives the \start command
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('save', message_handler))
 
 # Start the bot
 updater.start_polling()
