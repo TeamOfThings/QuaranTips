@@ -1,9 +1,10 @@
 from telegram.ext import Updater
-from telegram.ext import CommandHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler
 import json
 from sqlalchemy import func
 from database import engine, Thought, create_tables
 from message_reader import message_handler
+from tips import tip, button
 
 """
 HELP
@@ -20,21 +21,27 @@ with open("token.json", "r") as file:
     updater = Updater(token=data["bot_token"], use_context=True)
 
 dispatcher = updater.dispatcher
-
-
-# Def a method that only sends a message
-def start(update, context):
-    if not engine.dialect.has_table(engine, "thoughts"):
+if not engine.dialect.has_table(engine, "thoughts"):
         create_tables()
-    context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
+
+
+
+# # Def a method that only sends a message
+# def start(update, context):
+#     context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
 
 # Attach the method to a handler
     # The bot executes the method everytime it receives the \start command
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
-dispatcher.add_handler(CommandHandler('save', message_handler))
+updater.dispatcher.add_handler(CommandHandler('start', tip))
+updater.dispatcher.add_handler(CallbackQueryHandler(button))
+updater.dispatcher.add_handler(CommandHandler('save', message_handler))
+
+# start_handler = CommandHandler('start', start)
+# dispatcher.add_handler(start_handler)
 
 # Start the bot
 updater.start_polling()
 
-print("**Finished successfully**")
+# Run the bot until the user presses Ctrl-C or the process receives SIGINT,
+# SIGTERM or SIGABRT
+updater.idle()
