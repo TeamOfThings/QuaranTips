@@ -1,20 +1,21 @@
 import datetime as dt
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
+from sqlalchemy.ext.declarative import declarative_base
 
-db = SQLAlchemy()
+engine = create_engine('sqlite:///thoughts.db', echo=True)
+Base = declarative_base()
 
-class Thought(db.Model):
-    __tablename__ = 'thought'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    text = db.Column(db.Text(2000))  # around 400 (English) words
+class Thought(Base):
+    __tablename__ = 'thoughts'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    text = Column(Text(2000))  # around 400 (English) words
     # define foreign key
-    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    author = relationship('User', foreign_keys='Thoughts.author_id')
+    author_id = Column(Integer)
+    date = Column(DateTime)
 
     def __init__(self, *args, **kw):
         super(Thought, self).__init__(*args, **kw)
-        self.date = dt.datetime.now()
 
     def get_id(self):
         return self.id
@@ -22,14 +23,5 @@ class Thought(db.Model):
     def get_author_id(self):
         return self.author_id
 
-
-
-class User(db.Model):
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-
-    def __init__(self, *args, **kw):
-        super(User, self).__init__(*args, **kw)
-
-    def get_id(self):
-        return self.id
+def create_tables():
+    Base.metadata.create_all(engine)

@@ -2,7 +2,8 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 import json
 from sqlalchemy import func
-from database import db, Thought, User
+from database import engine, Thought, create_tables
+from message_reader import message_handler
 
 """
 HELP
@@ -23,12 +24,15 @@ dispatcher = updater.dispatcher
 
 # Def a method that only sends a message
 def start(update, context):
+    if not engine.dialect.has_table(engine, "thoughts"):
+        create_tables()
     context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
 
 # Attach the method to a handler
     # The bot executes the method everytime it receives the \start command
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CommandHandler('save', message_handler))
 
 # Start the bot
 updater.start_polling()
