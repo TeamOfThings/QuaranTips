@@ -1,7 +1,7 @@
 from telegram.ext import Updater
-from telegram.ext import CommandHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler
 import json
-
+from tips import tip, button
 """
 HELP
 The Updater class continuously fetches new updates from telegram and passes them on to the Dispatcher class.
@@ -19,16 +19,21 @@ with open("token.json", "r") as file:
 dispatcher = updater.dispatcher
 
 
-# Def a method that only sends a message
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
+# # Def a method that only sends a message
+# def start(update, context):
+#     context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
 
 # Attach the method to a handler
     # The bot executes the method everytime it receives the \start command
-start_handler = CommandHandler('start', start)
-dispatcher.add_handler(start_handler)
+updater.dispatcher.add_handler(CommandHandler('start', tip))
+updater.dispatcher.add_handler(CallbackQueryHandler(button))
+
+# start_handler = CommandHandler('start', start)
+# dispatcher.add_handler(start_handler)
 
 # Start the bot
 updater.start_polling()
 
-print("**Finished successfully**")
+# Run the bot until the user presses Ctrl-C or the process receives SIGINT,
+# SIGTERM or SIGABRT
+updater.idle()
