@@ -5,6 +5,7 @@ from sqlalchemy import func
 from database import engine, Thought, create_tables
 from message_reader import message_handler
 from tips import tip, button
+from pushNotifications import add_notification_handler
 
 """
 HELP
@@ -35,6 +36,7 @@ if not engine.dialect.has_table(engine, "thoughts"):
 updater.dispatcher.add_handler(CommandHandler('start', tip))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
 updater.dispatcher.add_handler(CommandHandler('save', message_handler))
+updater.dispatcher.add_handler(CommandHandler('add_notification', add_notification_handler))
 
 # start_handler = CommandHandler('start', start)
 # dispatcher.add_handler(start_handler)
