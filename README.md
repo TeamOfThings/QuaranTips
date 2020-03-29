@@ -1,9 +1,3 @@
----
-noteId: "dff7b3b171c511eabf979522b255bfd9"
-tags: []
-
----
-
 # Quaran-Tips
 A Telegram bot with some tips and activities to preserve your mental health during quarantine periods.
 
@@ -58,8 +52,11 @@ We use a json file called ``token.json`` storing our token. You can use any othe
 ## Autori
 
 Andrea Bachechi - [B4k3](https://github.com/B4k3)
+
 Chiara Baraglia - [CB-92](https://github.com/CB-92)
+
 Luca Di Mauro - [dima91](https://github.com/dima91)
+
 Andrea Lisi - [0Alic](https://github.com/0Alic)
 
 \#andràtuttobene :rainbow:
