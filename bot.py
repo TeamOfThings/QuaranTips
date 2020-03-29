@@ -5,6 +5,7 @@ from sqlalchemy import func
 from database import engine, Thought, create_tables
 from thoughtmanager import ThoughtManager
 from tips import tip, button
+from pushNotifications import add_notification_handler
 
 """
 HELP
@@ -39,6 +40,7 @@ updater.dispatcher.add_handler(CallbackQueryHandler(button))
 updater.dispatcher.add_handler(CommandHandler('pensiero', tm.thought_handler))
 updater.dispatcher.add_handler(CommandHandler('listapensieri', tm.get_thoughts_list))
 updater.dispatcher.add_handler(CommandHandler('pensierorandom', tm.get_random_though))
+updater.dispatcher.add_handler(CommandHandler('add_notification', add_notification_handler))
 
 # start_handler = CommandHandler('start', start)
 # dispatcher.add_handler(start_handler)
