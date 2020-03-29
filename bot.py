@@ -3,7 +3,7 @@ from telegram.ext import CommandHandler, CallbackQueryHandler
 import json
 from sqlalchemy import func
 from database import engine, Thought, create_tables
-from message_reader import message_handler
+from thoughtmanager import ThoughtManager
 from tips import tip, button
 from pushNotifications import add_notification_handler
 
@@ -22,6 +22,8 @@ with open("token.json", "r") as file:
     updater = Updater(token=data["bot_token"], use_context=True)
 
 dispatcher = updater.dispatcher
+tm = ThoughtManager()
+
 if not engine.dialect.has_table(engine, "thoughts"):
         create_tables()
 
@@ -35,7 +37,9 @@ if not engine.dialect.has_table(engine, "thoughts"):
     # The bot executes the method everytime it receives the \start command
 updater.dispatcher.add_handler(CommandHandler('start', tip))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
-updater.dispatcher.add_handler(CommandHandler('save', message_handler))
+updater.dispatcher.add_handler(CommandHandler('pensiero', tm.thought_handler))
+updater.dispatcher.add_handler(CommandHandler('listapensieri', tm.get_thoughts_list))
+updater.dispatcher.add_handler(CommandHandler('pensierorandom', tm.get_random_though))
 updater.dispatcher.add_handler(CommandHandler('add_notification', add_notification_handler))
 
 # start_handler = CommandHandler('start', start)
