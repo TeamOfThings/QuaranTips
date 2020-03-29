@@ -47,7 +47,7 @@ class ThoughtManager:
     def get_random_though(self, update, context):
         self.session = self.Session()
         user_id = update.message.from_user.id
-        rand = random.randrange(0, self.session.query(Thought).count()-1) 
+        rand = random.randrange(0, self.session.query(Thought).filter(Thought.author_id == user_id).count()) 
         row = self.session.query(Thought).filter(Thought.author_id == user_id)[rand]
         update.message.reply_text("Il giorno " + self.date_to_string(row.date) +" alle ore " + self.date_to_hours(row.date) + " hai scritto: \""+ row.text +"\"")
         
