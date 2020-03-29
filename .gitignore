@@ -8,7 +8,7 @@ token.json
 token_test.json
 venv/
 virtualenv/
-thoughts.db
+*.db
 
 ### Linux ###
 *~

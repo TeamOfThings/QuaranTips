@@ -21,9 +21,9 @@ class ThoughtManager:
             self.session.commit()
         except Exception as e:
             print(e)
-        #update.message.reply_text("Il tuo messaggio è stato salvato")
-        reply = self.date_to_string(date) + " : " + str(user_id) + " : " + str(user_says)
-        update.message.reply_text(reply)
+        update.message.reply_text("Il tuo pensiero è stato aggiunto al diario.")
+        #reply = self.date_to_string(date) + str(user_says)
+        #update.message.reply_text(reply)
 
     
     def get_thoughts_list(self, update, context):
