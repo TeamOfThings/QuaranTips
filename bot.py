@@ -1,5 +1,6 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler, CallbackQueryHandler
+import telegram
 import json
 from sqlalchemy import func
 from database import engine, Thought, create_tables
@@ -15,6 +16,15 @@ You can then register handlers of different types in the Dispatcher,
 which will sort the updates fetched by the Updater according to the handlers you registered,
 and deliver them to a callback function that you defined.
 """
+
+
+def start_handler (updater, context) :
+    custom_keyboard	= [["Inserisci un pensiero positivo", "Leggi un pensiero random", "Leggi la lista di pensieri che hai aggiunto"],
+						["Mi consigli un esercizio da poter fare un casa?", "Mi consigli un libro da leggere?"],
+						["Mi mandi periodicamente dei consigli per stare meglio?"]]
+    reply_markup	= telegram.ReplyKeyboardMarkup(custom_keyboard)
+    context.bot.send_message (chat_id=updater.message.from_user.id, text="Bisogna aggiungere due righe per TODO", reply_markup=reply_markup)
+
 
 # Init
 with open("token.json", "r") as file:
@@ -32,8 +42,9 @@ if not engine.dialect.has_table(engine, "thoughts"):
 #     context.bot.send_message(chat_id=update.effective_chat.id, text="QuarantinTips!")
 
 # Attach the method to a handler
-    # The bot executes the method everytime it receives the \start command
-updater.dispatcher.add_handler(CommandHandler('start', tip))
+# The bot executes the method everytime it receives the \start command
+updater.dispatcher.add_handler(CommandHandler("start", start_handler))
+updater.dispatcher.add_handler(CommandHandler('tip', tip))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
 updater.dispatcher.add_handler(CommandHandler('save', message_handler))
 updater.dispatcher.add_handler(CommandHandler('add_notification', add_notification_handler))
