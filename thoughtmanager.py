@@ -13,15 +13,19 @@ class ThoughtManager:
     def thought_handler(self, update, context):
         self.session = self.Session()
         user_says = " ".join(context.args)
-        user_id = update.message.from_user.id
-        date = update.message.date
-        try:
-            thought = Thought(text=user_says, author_id=user_id, date=date)
-            self.session.add(thought)
-            self.session.commit()
-        except Exception as e:
-            print(e)
-        update.message.reply_text("Il tuo pensiero è stato aggiunto al diario.")
+        if len(user_says) > 1:
+            user_id = update.message.from_user.id
+            date = update.message.date
+            try:
+                thought = Thought(text=user_says, author_id=user_id, date=date)
+                self.session.add(thought)
+                self.session.commit()
+            except Exception as e:
+                print(e)
+            update.message.reply_text("Il tuo pensiero è stato aggiunto al diario.")
+        else :
+            update.message.reply_text("Non puoi aggiungere un pensiero vuoto: inserisci il comando /pensiero seguito da uno spazio e dal tuo pensiero.")
+
         #reply = self.date_to_string(date) + str(user_says)
         #update.message.reply_text(reply)
 
