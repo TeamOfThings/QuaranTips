@@ -24,11 +24,11 @@ def add_notification_handler (updater, context) :
     user_id         = updater.message.from_user.id
     
     if user_id in registered_users :
-        context.bot.send_message (chat_id=user_id, text="Operazione fallita: è stato già registrato un promemoria")
+        context.bot.send_message (chat_id=user_id, text="Ops, qualcosa è andato storto: è stato già registrato un promemoria!")
     else :
         lambda_message_callback     = lambda ctxt : messageCallback (ctxt, user_id)
         registered_users[user_id]   = context.job_queue.run_repeating (lambda_message_callback, interval=86400, first=5)
-        context.bot.send_message (chat_id=user_id, text="Operazione eseguita con successo")
+        context.bot.send_message (chat_id=user_id, text="Promemoria impostato!")
 
     
 
@@ -40,6 +40,6 @@ def remove_notification_handler (updater, context) :
     if user_id in registered_users :
         registered_users[user_id].schedule_removal ()
         del registered_users[user_id]
-        context.bot.send_message (chat_id=user_id, text="Operazione eseguita con successo")
+        context.bot.send_message (chat_id=user_id, text="Hai eliminato il promemoria giornaliero.")
     else:
-        context.bot.send_message (chat_id=user_id, text="Operazione fallita: nessun promemoria attualmente registrato.")
+        context.bot.send_message (chat_id=user_id, text="Ops, qualcosa è andato storto: nessun promemoria attualmente registrato.")
