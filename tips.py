@@ -16,13 +16,32 @@ class TipList:
     """This class stores a fixed list of tips and randmly picks one
     """
 
-    def __init__(self, lst):
+    def __init__(self, tip_lst, link_lst):
+        self.tip_list = tip_lst
+        self.link_list = link_lst
 
-        self.tip_list = lst
-
-    def pick(self):
+    def pick_tip(self):
         idx = random.randint(0, len(self.tip_list)-1)
         return self.tip_list[idx]
+
+    def pick_link(self):
+        idx = random.randint(0, len(self.link_list)-1)
+        return self.link_list[idx]
+
+
+# Create object tips
+book_tip = TipList([ "La saga di Harry Potter", "Il signore degli anelli", "La trilogia di Hunger Games",
+                    "Il codice da Vinci", "I libri gialli di Agatha Christie, come Dieci piccoli indiani",
+                    "Ready Player One", "Le cronache di Narnia", "La bussola d'oro", "Guida galaticca per autostoppisti",
+                    "iniziare la saga delle Cronache del ghiaccio e del fuoco", "L'ombra del vento"],
+                    ["https://www.ilpost.it/2020/03/13/sono-giorni-adatti-ai-libri-lunghi/",
+                    "https://www.open.online/2020/03/11/coronavirus-10-libri-da-leggere-durante-la-quarantena/",
+                    "https://www.ilpost.it/libri/"])
+
+sport_tip = TipList([ "degli esercizi di stretching", "una corsa sul posto o step", "un allenamento online. Molti istruttori fanno esercizi in diretta",
+                        ],
+                    ["https://www.open.online/2020/03/14/coronavirus-dieci-esercizi-da-fare-per-allenarvi-in-casa-durante-la-quarantena/",
+                    "https://www.my-personaltrainer.it/allenamento/palestra-casa.html"])
 
 
 # Loggers 
@@ -31,9 +50,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-# Create object tips
-book_tip = TipList([ "La saga di Harry Potter", "Il signore degli anelli", "La trilogia di Hunger Games"])
-sport_tip = TipList([ "degli esercizi di stretching", "una corsa sul posto o step", "un allenamento online. Molti istruttori fanno esercizi in diretta"])
 
 
 def tip(update, context):
@@ -59,14 +75,14 @@ def button(update, context):
 
     # query.data == callback_data
     if query.data == "books":
-        text = f"Ecco un buon libro da leggere: {book_tip.pick()}\n\n"
+        text = f"Ecco un buon libro da leggere: {book_tip.pick_tip()}\n\n"
         text = text + "Distrarsi dalle notizie durante la quarantena con un buon libro fa bene alla salute mentale.\n"
-        text = text + "Leggi altri consigli su: https://www.ilpost.it/2020/03/16/consigli-psicologici-coronavirus/"
+        text = text + f"Puoi trovare ulteriori suggerimenti su: {book_tip.pick_link()}"
 
     elif query.data == "sport":
-        text = f"Non ti dimenticare di fare un po' di movimento, per esempio {sport_tip.pick()}\n\n"
+        text = f"Non ti dimenticare di fare un po' di movimento, per esempio {sport_tip.pick_tip()}\n\n"
         text = text + "Lo sport, oltre a fare bene, ha anche una forte componente antidepressiva, importante durante questi giorni di quarantena.\n"
-        text = text + "Leggi di più su: https://www.ilpost.it/2020/03/16/consigli-psicologici-coronavirus/"
+        text = text + f"Puoi trovare ulteriori suggerimenti su: {sport_tip.pick_link()}"
 
     else:
         pass
