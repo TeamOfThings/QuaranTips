@@ -7,7 +7,7 @@ tags: []
 # QuaranTips
 A Telegram bot with some tips and activities to preserve your mental health during quarantine periods.
 
-![](./quarantips.png =250x250)
+![](./quarantips.png)
 
 # Quaran-Tips
 A Telegram bot with some tips and activities to preserve your mental health during quarantine periods.
