@@ -1,5 +1,5 @@
 from telegram.ext import Updater
-from telegram.ext import CommandHandler, CallbackQueryHandler
+from telegram.ext import CommandHandler, CallbackQueryHandler, MessageHandler, Filters
 import json
 from sqlalchemy import func
 from database import engine, Thought, create_tables
@@ -50,4 +50,5 @@ updater.start_polling()
 
 # Run the bot until the user presses Ctrl-C or the process receives SIGINT,
 # SIGTERM or SIGABRT
+
 updater.idle()
