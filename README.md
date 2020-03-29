@@ -1,3 +1,9 @@
+---
+noteId: "97a8072071cc11eabf979522b255bfd9"
+tags: []
+
+---
+
 # Quaran-Tips
 A Telegram bot with some tips and activities to preserve your mental health during quarantine periods.
 
@@ -20,12 +26,16 @@ Quaran-Tips fornisce all'utente alcuni piccoli servizi per il benessere durante 
 
 ## Comandi
 
-- ``/start``: Fornisce le informazioni necessarie per usare il bot
+Digitare i seguenti comandi per far eseguire un'azione al bot: 
+
+- ``/start``: Mostra il messaggio di benvenuto e crea il diario
+- ``/help``: Fornisce le informazioni necessarie per usare il bot
 - ``/tip``: Il bot fornisce alcune categorie che l'utente può selezionare per ricevere un consiglio
-- ``/pensieropositivo``
-- ``/etc``
-- ``/etc``
-- ``/etc``
+- ``/pensiero``: Scrivi un pensiero insieme a questo comando per aggiungerlo al tuo diario
+- ``/listapensieri``: Mostra tutti i pensieri scritti
+- ``/pensierorandom``: Mostra un pensiero casuale
+- ``/promemoriagiornaliero``: Crea un promemoria che quotidianamente ti invia un consiglio per la quarantena 
+- ``/cancellapromemoria``: Cancella il promemoria
 
 ---
 
@@ -45,7 +55,7 @@ To run a bot you need first to get an API token from the botfather. See [here](h
 We use a json file called ``token.json`` storing our token. You can use any other method: be sure to change the code to fetch the token in the ``bot.py`` script.
 
 - bot.py is the starting point of the bot
-- run an instance of the bot with python ``bot.py``
+- run an instance of the bot with ``python bot.py``
 
 ---
 
