@@ -45,8 +45,8 @@ updater.dispatcher.add_handler(CallbackQueryHandler(button))
 updater.dispatcher.add_handler(CommandHandler('pensiero', tm.thought_handler))
 updater.dispatcher.add_handler(CommandHandler('listapensieri', tm.get_thoughts_list))
 updater.dispatcher.add_handler(CommandHandler('pensierorandom', tm.get_random_though))
-updater.dispatcher.add_handler(CommandHandler('promemoria_giornaliero', add_notification_handler))
-updater.dispatcher.add_handler(CommandHandler('cancella_promemoria', remove_notification_handler))
+updater.dispatcher.add_handler(CommandHandler('promemoriagiornaliero', add_notification_handler))
+updater.dispatcher.add_handler(CommandHandler('cancellapromemoria', remove_notification_handler))
 
 
 

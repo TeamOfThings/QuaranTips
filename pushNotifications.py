@@ -27,7 +27,7 @@ def add_notification_handler (updater, context) :
         context.bot.send_message (chat_id=user_id, text="Operazione fallita: è stato già registrato un promemoria")
     else :
         lambda_message_callback     = lambda ctxt : messageCallback (ctxt, user_id)
-        registered_users[user_id]   = context.job_queue.run_repeating (lambda_message_callback, interval=15, first=5)
+        registered_users[user_id]   = context.job_queue.run_repeating (lambda_message_callback, interval=86400, first=5)
         context.bot.send_message (chat_id=user_id, text="Operazione eseguita con successo")
 
     
