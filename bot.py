@@ -7,6 +7,7 @@ from database import engine, Thought, create_tables
 from message_reader import message_handler
 from tips import tip, button
 from pushNotifications import add_notification_handler
+from telegram.ext import MessageHandler, Filters
 
 """
 HELP
@@ -24,6 +25,18 @@ def start_handler (updater, context) :
 						["Mi mandi periodicamente dei consigli per stare meglio?"]]
     reply_markup	= telegram.ReplyKeyboardMarkup(custom_keyboard)
     context.bot.send_message (chat_id=updater.message.from_user.id, text="Bisogna aggiungere due righe per TODO", reply_markup=reply_markup)
+
+
+def echo(update, context):
+    print ("Received: ", update.message.text)
+    msg				= update.message.text
+    botToClientMsg	= "ho ricevuto questo messaggio: " + msg + "\n"
+    if msg == "Inserisci un pensiero positivo" :
+        botToClientMsg += "Digita /pensieropositivo <pensiero>"
+    else :
+        botToClientMsg += "Ho implementato questa cosa solo per il pensiero positivo. Schiaccia quel bottone!"
+
+    context.bot.send_message(chat_id=update.effective_chat.id, text=botToClientMsg)
 
 
 # Init
@@ -48,6 +61,9 @@ updater.dispatcher.add_handler(CommandHandler('tip', tip))
 updater.dispatcher.add_handler(CallbackQueryHandler(button))
 updater.dispatcher.add_handler(CommandHandler('save', message_handler))
 updater.dispatcher.add_handler(CommandHandler('add_notification', add_notification_handler))
+
+updater.dispatcher.add_handler(MessageHandler(Filters.text, echo))
+
 
 # start_handler = CommandHandler('start', start)
 # dispatcher.add_handler(start_handler)
